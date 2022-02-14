@@ -8,9 +8,60 @@
     <title>Hii Cantik</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+<style>
+    #msg {
+
+        width: 500px;
+        height: 200px;
+    }
+
+    #object {
+        margin: 0;
+        padding: 0.5em;
+        border: solid 0.5em #FF0000;
+        background: #000;
+        animation-name: revolve;
+        animation-duration: 2s;
+        animation-iteration-count: infinite
+    }
+
+    @keyframes revolve {
+        0% {
+            transform: rotate(20deg);
+        }
+
+        10% {
+            transform: rotate(30deg);
+        }
+
+        20% {
+            transform: rotate(40deg);
+        }
+
+        30% {
+            transform: rotate(50deg);
+        }
+
+        40% {
+            transform: rotate(70deg);
+        }
+
+        50% {
+            transform: rotate(100deg);
+        }
+
+        70% {
+            transform: rotate(140deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 
 <body>
-    <div class="h-screen w-screen bg-slate-800 flex pt-10 ">
+    <div id="container" class="h-screen w-screen bg-slate-800 flex pt-10 ">
         <div class="container mx-auto flex flex-col items-center">
             <h1 class="text-pink-400 font-bold  tracking-widest text-2xl mb-6">
                 Hii Cantikk !
@@ -27,6 +78,10 @@
             <button id="btn-nolak" onclick="gakMau(this)"
                 class="border-2 border-pink-600 py-2 px-4 text-gray-200 rounded-sm absolute bottom-20">
                 Gak Mau</button>
+
+            <div id="msg">object</div>
+
+            <div id="object"> gdfg</div>
         </div>
 
 
@@ -40,6 +95,38 @@
                 id.style.left = i + 'px';
                 // id.style.right = i + 'px';
             }
+
+            //on mouseEvent Properties
+            function getMouseCoords(e) {
+                var e = e || window.event;
+                document.getElementById('msg').innerHTML = e.clientX + ', ' +
+                    e.clientY + '<br>' + e.screenX + ', ' + e.screenY;
+            }
+
+            var followCursor = (
+                function () {
+                    var s = document.getElementById('object');
+                    s.style.position = 'absolute';
+
+                    return {
+                        init: function () {
+                            document.body.appendChild(s);
+                        },
+
+                        run: function (e) {
+                            var e = e || window.event;
+                            s.style.left = (e.clientX - 5) + 'px';
+                            s.style.top = (e.clientY - 5) + 'px';
+                            getMouseCoords(e);
+                        }
+                    };
+                }());
+
+            window.onload = function () {
+                followCursor.init();
+                document.body.onmousemove = followCursor.run;
+            }
+
         </script>
     </div>
 </body>
